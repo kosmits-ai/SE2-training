@@ -1,0 +1,295 @@
+openapi: 3.0.0
+info:
+  title: Library API
+  description: API for managing a library
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /books:
+    get:
+      summary: Get a list of books
+      operationId: booksGET
+      responses:
+        "200":
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+    post:
+      summary: Add a new book
+      operationId: booksPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      responses:
+        "201":
+          description: Book successfully added
+      x-swagger-router-controller: Default
+  /books/{bookId}:
+    get:
+      summary: Get details of a book
+      operationId: booksBookIdGET
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Detailed information about a book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+      x-swagger-router-controller: Default
+    delete:
+      summary: Delete a book
+      operationId: booksBookIdDELETE
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Book successfully deleted
+      x-swagger-router-controller: Default
+  /users:
+    get:
+      summary: Get a list of users
+      operationId: usersGET
+      responses:
+        "200":
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+    post:
+      summary: Create a new user
+      operationId: usersPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "201":
+          description: User successfully created
+      x-swagger-router-controller: Default
+  /users/{userId}:
+    get:
+      summary: Get details of a user
+      operationId: usersUserIdGET
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Detailed information about a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-swagger-router-controller: Default
+    put:
+      summary: Update user details
+      operationId: usersUserIdPUT
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      responses:
+        "200":
+          description: User successfully updated
+      x-swagger-router-controller: Default
+    delete:
+      summary: Delete a user
+      operationId: usersUserIdDELETE
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: User successfully deleted
+      x-swagger-router-controller: Default
+  /users/{userId}/borrowings:
+    get:
+      summary: Get a list of borrowed books by a user
+      operationId: usersUserIdBorrowingsGET
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: A list of borrowed books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Borrowing'
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /books/{bookId}/borrow:
+    post:
+      summary: Borrow a book
+      operationId: booksBookIdBorrowPOST
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BorrowRequest'
+        required: true
+      responses:
+        "200":
+          description: Book successfully borrowed
+        "400":
+          description: "Bad request, book not available or user invalid"
+      x-swagger-router-controller: Default
+  /books/{bookId}/return:
+    post:
+      summary: Return a borrowed book
+      operationId: booksBookIdReturnPOST
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReturnRequest'
+        required: true
+      responses:
+        "200":
+          description: Book successfully returned
+        "400":
+          description: "Bad request, return not possible"
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        isbn:
+          type: string
+        available:
+          type: boolean
+      example:
+        author: author
+        isbn: isbn
+        available: true
+        id: 0
+        title: title
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+      example:
+        name: name
+        id: 0
+        email: email
+    UserUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+    Borrowing:
+      type: object
+      properties:
+        userId:
+          type: integer
+        bookId:
+          type: integer
+        borrowDate:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date-time
+      example:
+        dueDate: 2000-01-23T04:56:07.000+00:00
+        userId: 0
+        borrowDate: 2000-01-23T04:56:07.000+00:00
+        bookId: 6
+    BorrowRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+    ReturnRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
