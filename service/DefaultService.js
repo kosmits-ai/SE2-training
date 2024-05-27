@@ -9,7 +9,7 @@
  * no response value expected for this operation
  **/
 exports.booksBookIdBorrowPOST = function(body,bookId) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     resolve();
   });
 }
@@ -22,7 +22,7 @@ exports.booksBookIdBorrowPOST = function(body,bookId) {
  * no response value expected for this operation
  **/
 exports.booksBookIdDELETE = function(bookId) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     resolve();
   });
 }
@@ -35,7 +35,7 @@ exports.booksBookIdDELETE = function(bookId) {
  * returns Book
  **/
 exports.booksBookIdGET = function(bookId) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     var examples = {};
     examples['application/json'] = {
   "author" : "author",
