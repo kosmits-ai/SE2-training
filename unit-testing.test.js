@@ -76,7 +76,7 @@ test("Unit testing of booksPOST", async (t) =>{
     
 });
 
-/*
+
 test("Successfully posting a book", async (t) => {
     const postData = {
         id: 3,
@@ -87,7 +87,7 @@ test("Successfully posting a book", async (t) => {
     t.is(result.statusCode, 201);
 });
 
-*/
+
 test.after.always((t) =>{
     t.context.server.close();
 });
