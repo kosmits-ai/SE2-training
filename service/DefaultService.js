@@ -185,7 +185,7 @@ exports.usersUserIdBorrowingsGET = function(userId) {
  * no response value expected for this operation
  **/
 exports.usersUserIdDELETE = function(userId) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     resolve();
   });
 }
@@ -198,7 +198,7 @@ exports.usersUserIdDELETE = function(userId) {
  * returns User
  **/
 exports.usersUserIdGET = function(userId) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     var examples = {};
     examples['application/json'] = {
   "name" : "name",
